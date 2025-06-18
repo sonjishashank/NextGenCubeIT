@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Pause, Play, ArrowRight, ArrowLeft } from "lucide-react"
 
@@ -55,17 +55,39 @@ const slides: Slide[] = [
 
 export default function HeroSlider() {
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [nextSlide, setNextSlide] = useState(1)
   const [isPlaying, setIsPlaying] = useState(true)
   const [progress, setProgress] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
 
   const slideInterval = 5000 // 5 seconds per slide
 
+  const changeSlide = useCallback(
+    (newSlideIndex: number) => {
+      if (isTransitioning || newSlideIndex === currentSlide) return
+
+      setIsTransitioning(true)
+      setNextSlide(newSlideIndex)
+
+      // Start fade out
+      setTimeout(() => {
+        setCurrentSlide(newSlideIndex)
+        setProgress(0)
+
+        // Complete fade in
+        setTimeout(() => {
+          setIsTransitioning(false)
+        }, 300)
+      }, 300)
+    },
+    [currentSlide, isTransitioning],
+  )
+
   useEffect(() => {
     let interval: NodeJS.Timeout
     let progressInterval: NodeJS.Timeout
 
-    if (isPlaying) {
+    if (isPlaying && !isTransitioning) {
       // Progress bar animation
       progressInterval = setInterval(() => {
         setProgress((prev) => {
@@ -78,8 +100,8 @@ export default function HeroSlider() {
 
       // Slide change
       interval = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % slides.length)
-        setProgress(0)
+        const nextIndex = (currentSlide + 1) % slides.length
+        changeSlide(nextIndex)
       }, slideInterval)
     }
 
@@ -87,26 +109,16 @@ export default function HeroSlider() {
       clearInterval(interval)
       clearInterval(progressInterval)
     }
-  }, [isPlaying, currentSlide])
+  }, [isPlaying, currentSlide, isTransitioning, changeSlide])
 
-  const nextSlide = () => {
-    if (isTransitioning) return
-    setIsTransitioning(true)
-    setTimeout(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length)
-      setProgress(0)
-      setIsTransitioning(false)
-    }, 150)
+  const handleNextSlide = () => {
+    const nextIndex = (currentSlide + 1) % slides.length
+    changeSlide(nextIndex)
   }
 
-  const prevSlide = () => {
-    if (isTransitioning) return
-    setIsTransitioning(true)
-    setTimeout(() => {
-      setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
-      setProgress(0)
-      setIsTransitioning(false)
-    }, 150)
+  const handlePrevSlide = () => {
+    const prevIndex = (currentSlide - 1 + slides.length) % slides.length
+    changeSlide(prevIndex)
   }
 
   const togglePlayPause = () => {
@@ -117,13 +129,7 @@ export default function HeroSlider() {
   }
 
   const goToSlide = (index: number) => {
-    if (isTransitioning || index === currentSlide) return
-    setIsTransitioning(true)
-    setTimeout(() => {
-      setCurrentSlide(index)
-      setProgress(0)
-      setIsTransitioning(false)
-    }, 150)
+    changeSlide(index)
   }
 
   const renderSlideContent = (slide: Slide, index: number) => {
@@ -145,14 +151,14 @@ export default function HeroSlider() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button
                 size="lg"
-                className="bg-red-600 hover:bg-red-700 text-white px-6 lg:px-8 py-3 lg:py-4 text-base lg:text-lg"
+                className="bg-red-600 hover:bg-red-700 text-white px-6 lg:px-8 py-3 lg:py-4 text-base lg:text-lg transition-all duration-300"
               >
                 {slide.ctaText}
               </Button>
               <Button
                 size="lg"
                 variant="outline"
-                className="border-red-500 text-red-400 hover:bg-red-500 hover:text-white px-6 lg:px-8 py-3 lg:py-4 text-base lg:text-lg"
+                className="border-red-500 text-red-400 hover:bg-red-500 hover:text-white px-6 lg:px-8 py-3 lg:py-4 text-base lg:text-lg transition-all duration-300"
               >
                 {slide.ctaSecondary}
               </Button>
@@ -161,7 +167,7 @@ export default function HeroSlider() {
 
           <div className="flex-1 flex justify-center items-center">
             <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96">
-              {/* Robot with globe illustration */}
+              {/* Animated globe illustration */}
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-red-500/20 rounded-full animate-pulse" />
               <div
                 className="absolute inset-4 bg-gradient-to-br from-cyan-400/30 to-blue-600/30 rounded-full animate-pulse"
@@ -219,14 +225,14 @@ export default function HeroSlider() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
           <Button
             size="lg"
-            className="bg-red-600 hover:bg-red-700 text-white px-6 lg:px-8 py-3 lg:py-4 text-base lg:text-lg"
+            className="bg-red-600 hover:bg-red-700 text-white px-6 lg:px-8 py-3 lg:py-4 text-base lg:text-lg transition-all duration-300"
           >
             {slide.ctaText}
           </Button>
           <Button
             size="lg"
             variant="outline"
-            className="border-red-500 text-red-400 hover:bg-red-500 hover:text-white px-6 lg:px-8 py-3 lg:py-4 text-base lg:text-lg"
+            className="border-red-500 text-red-400 hover:bg-red-500 hover:text-white px-6 lg:px-8 py-3 lg:py-4 text-base lg:text-lg transition-all duration-300"
           >
             {slide.ctaSecondary}
           </Button>
@@ -295,21 +301,32 @@ export default function HeroSlider() {
         </svg>
       </div>
 
-      {/* Slide Content */}
+      {/* Current Slide */}
       <div
-        className={`relative z-10 w-full h-full flex items-center justify-center py-20 transition-all duration-500 ease-in-out ${
-          isTransitioning ? "opacity-0 transform scale-95" : "opacity-100 transform scale-100"
+        className={`absolute inset-0 w-full h-full flex items-center justify-center py-20 transition-all duration-600 ease-in-out ${
+          isTransitioning ? "opacity-0 transform translate-x-8" : "opacity-100 transform translate-x-0"
         }`}
       >
         {renderSlideContent(slides[currentSlide], currentSlide)}
       </div>
+
+      {/* Next Slide (for smooth transition) */}
+      {isTransitioning && (
+        <div
+          className={`absolute inset-0 w-full h-full flex items-center justify-center py-20 transition-all duration-600 ease-in-out ${
+            isTransitioning ? "opacity-100 transform translate-x-0" : "opacity-0 transform -translate-x-8"
+          }`}
+        >
+          {renderSlideContent(slides[nextSlide], nextSlide)}
+        </div>
+      )}
 
       {/* Navigation Controls - Hidden on mobile, visible on tablet+ */}
       <div className="absolute right-4 lg:right-8 top-1/2 transform -translate-y-1/2 hidden sm:flex flex-col space-y-4">
         <Button
           size="icon"
           variant="ghost"
-          className="text-white hover:text-red-400 hover:bg-red-400/10"
+          className="text-white hover:text-red-400 hover:bg-red-400/10 transition-all duration-200"
           onClick={togglePlayPause}
         >
           {isPlaying ? <Pause className="w-5 h-5 lg:w-6 lg:h-6" /> : <Play className="w-5 h-5 lg:w-6 lg:h-6" />}
@@ -317,16 +334,18 @@ export default function HeroSlider() {
         <Button
           size="icon"
           variant="ghost"
-          className="text-white hover:text-red-400 hover:bg-red-400/10"
-          onClick={nextSlide}
+          className="text-white hover:text-red-400 hover:bg-red-400/10 transition-all duration-200"
+          onClick={handleNextSlide}
+          disabled={isTransitioning}
         >
           <ArrowRight className="w-5 h-5 lg:w-6 lg:h-6" />
         </Button>
         <Button
           size="icon"
           variant="ghost"
-          className="text-white hover:text-red-400 hover:bg-red-400/10"
-          onClick={prevSlide}
+          className="text-white hover:text-red-400 hover:bg-red-400/10 transition-all duration-200"
+          onClick={handlePrevSlide}
+          disabled={isTransitioning}
         >
           <ArrowLeft className="w-5 h-5 lg:w-6 lg:h-6" />
         </Button>
@@ -337,15 +356,16 @@ export default function HeroSlider() {
         <Button
           size="icon"
           variant="ghost"
-          className="text-white hover:text-red-400 hover:bg-red-400/10"
-          onClick={prevSlide}
+          className="text-white hover:text-red-400 hover:bg-red-400/10 transition-all duration-200"
+          onClick={handlePrevSlide}
+          disabled={isTransitioning}
         >
           <ArrowLeft className="w-5 h-5" />
         </Button>
         <Button
           size="icon"
           variant="ghost"
-          className="text-white hover:text-red-400 hover:bg-red-400/10"
+          className="text-white hover:text-red-400 hover:bg-red-400/10 transition-all duration-200"
           onClick={togglePlayPause}
         >
           {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
@@ -353,8 +373,9 @@ export default function HeroSlider() {
         <Button
           size="icon"
           variant="ghost"
-          className="text-white hover:text-red-400 hover:bg-red-400/10"
-          onClick={nextSlide}
+          className="text-white hover:text-red-400 hover:bg-red-400/10 transition-all duration-200"
+          onClick={handleNextSlide}
+          disabled={isTransitioning}
         >
           <ArrowRight className="w-5 h-5" />
         </Button>
@@ -379,6 +400,7 @@ export default function HeroSlider() {
               index === currentSlide ? "bg-red-500 scale-125" : "bg-gray-500 hover:bg-gray-400"
             }`}
             onClick={() => goToSlide(index)}
+            disabled={isTransitioning}
           />
         ))}
       </div>
