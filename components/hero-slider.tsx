@@ -57,6 +57,7 @@ export default function HeroSlider() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isPlaying, setIsPlaying] = useState(true)
   const [progress, setProgress] = useState(0)
+  const [isTransitioning, setIsTransitioning] = useState(false)
 
   const slideInterval = 5000 // 5 seconds per slide
 
@@ -89,13 +90,23 @@ export default function HeroSlider() {
   }, [isPlaying, currentSlide])
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length)
-    setProgress(0)
+    if (isTransitioning) return
+    setIsTransitioning(true)
+    setTimeout(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length)
+      setProgress(0)
+      setIsTransitioning(false)
+    }, 150)
   }
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
-    setProgress(0)
+    if (isTransitioning) return
+    setIsTransitioning(true)
+    setTimeout(() => {
+      setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
+      setProgress(0)
+      setIsTransitioning(false)
+    }, 150)
   }
 
   const togglePlayPause = () => {
@@ -106,8 +117,13 @@ export default function HeroSlider() {
   }
 
   const goToSlide = (index: number) => {
-    setCurrentSlide(index)
-    setProgress(0)
+    if (isTransitioning || index === currentSlide) return
+    setIsTransitioning(true)
+    setTimeout(() => {
+      setCurrentSlide(index)
+      setProgress(0)
+      setIsTransitioning(false)
+    }, 150)
   }
 
   const renderSlideContent = (slide: Slide, index: number) => {
@@ -280,7 +296,11 @@ export default function HeroSlider() {
       </div>
 
       {/* Slide Content */}
-      <div className="relative z-10 w-full h-full flex items-center justify-center py-20">
+      <div
+        className={`relative z-10 w-full h-full flex items-center justify-center py-20 transition-all duration-500 ease-in-out ${
+          isTransitioning ? "opacity-0 transform scale-95" : "opacity-100 transform scale-100"
+        }`}
+      >
         {renderSlideContent(slides[currentSlide], currentSlide)}
       </div>
 

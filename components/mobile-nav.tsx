@@ -79,12 +79,19 @@ export default function MobileNav() {
       {isOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           {/* Backdrop */}
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={toggleMenu} />
+          <div
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300"
+            onClick={toggleMenu}
+          />
 
-          {/* Menu Panel */}
-          <div className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-gray-900 shadow-xl transform transition-transform duration-300 ease-in-out">
+          {/* Menu Panel - Slides from left */}
+          <div
+            className={`fixed top-0 left-0 h-full w-full bg-gray-900 shadow-xl transform transition-transform duration-300 ease-out ${
+              isOpen ? "translate-x-0" : "-translate-x-full"
+            }`}
+          >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-800">
+            <div className="flex items-center justify-between p-6 border-b border-gray-800">
               <div className="flex items-center space-x-3">
                 <Image
                   src="/images/nextgen-logo.png"
@@ -110,17 +117,17 @@ export default function MobileNav() {
 
             {/* Navigation Items */}
             <div className="flex flex-col h-full overflow-y-auto">
-              <nav className="flex-1 p-4 space-y-2">
-                {navItems.map((item) => (
-                  <div key={item.label}>
+              <nav className="flex-1 px-6 py-4">
+                {navItems.map((item, index) => (
+                  <div key={item.label} className="border-b border-gray-800 last:border-b-0">
                     <button
-                      className="w-full flex items-center justify-between p-3 text-left text-white hover:text-red-400 hover:bg-gray-800 rounded-lg transition-colors"
+                      className="w-full flex items-center justify-between py-6 text-left text-white hover:text-red-400 transition-colors group"
                       onClick={() => item.hasSubmenu && toggleExpanded(item.label)}
                     >
-                      <span className="font-medium">{item.label}</span>
+                      <span className="text-xl font-light">{item.label}</span>
                       {item.hasSubmenu && (
                         <ChevronDown
-                          className={`w-4 h-4 transition-transform duration-200 ${
+                          className={`w-5 h-5 transition-transform duration-200 ${
                             expandedItems.includes(item.label) ? "rotate-180" : ""
                           }`}
                         />
@@ -129,12 +136,12 @@ export default function MobileNav() {
 
                     {/* Submenu */}
                     {item.hasSubmenu && expandedItems.includes(item.label) && (
-                      <div className="ml-4 mt-2 space-y-1">
+                      <div className="pb-4 ml-4 space-y-3 animate-in slide-in-from-top-2 duration-200">
                         {item.submenu?.map((subItem) => (
                           <Link
                             key={subItem}
                             href="#"
-                            className="block p-2 text-gray-300 hover:text-red-400 hover:bg-gray-800 rounded transition-colors"
+                            className="block py-2 text-gray-300 hover:text-red-400 transition-colors text-lg"
                             onClick={toggleMenu}
                           >
                             {subItem}
@@ -147,8 +154,11 @@ export default function MobileNav() {
               </nav>
 
               {/* Contact Button */}
-              <div className="p-4 border-t border-gray-800">
-                <Button className="w-full bg-red-600 hover:bg-red-700 text-white" onClick={toggleMenu}>
+              <div className="p-6 border-t border-gray-800">
+                <Button
+                  className="w-full bg-transparent border border-white text-white hover:bg-white hover:text-black transition-all duration-300 py-4 text-lg font-light tracking-wider"
+                  onClick={toggleMenu}
+                >
                   CONTACT US
                 </Button>
               </div>
