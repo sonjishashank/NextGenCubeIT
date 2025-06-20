@@ -170,18 +170,39 @@ export default function HomePage() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            <Card className="bg-gray-900 border-gray-800">
-              <CardContent className="p-0">
-                <Image
-                  src="/images/manufacturing.jpg"
-                  alt="Manufacturing"
-                  width={400}
-                  height={200}
-                  className="w-full h-40 sm:h-48 object-cover"
-                />
+            <Card className="bg-gray-900 border-gray-800 group hover:border-red-500/30 transition-all duration-300">
+              <CardContent className="p-0 relative overflow-hidden">
+                <div className="relative">
+                  <Image
+                    src="/images/industrial-robots-factory.jpg"
+                    alt="Industrial robots in automotive manufacturing facility"
+                    width={400}
+                    height={200}
+                    className="w-full h-40 sm:h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  {/* Gradient overlay for better text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+                  {/* Industry 4.0 badge */}
+                  <div className="absolute top-3 right-3 bg-red-600/90 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-full font-medium">
+                    Industry 4.0
+                  </div>
+                </div>
                 <div className="p-4 sm:p-6">
-                  <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white">Manufacturing</h3>
-                  <p className="text-gray-400 text-sm sm:text-base">Smart manufacturing solutions for the future</p>
+                  <h3 className="text-lg sm:text-xl font-semibold mb-2 text-white group-hover:text-red-400 transition-colors">
+                    Smart Manufacturing
+                  </h3>
+                  <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
+                    Advanced robotics and AI-driven automation solutions transforming production lines for enhanced
+                    efficiency, quality, and scalability in modern manufacturing.
+                  </p>
+
+                  {/* Key features */}
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <span className="text-xs bg-gray-800 text-gray-300 px-2 py-1 rounded">Robotics</span>
+                    <span className="text-xs bg-gray-800 text-gray-300 px-2 py-1 rounded">IoT Integration</span>
+                    <span className="text-xs bg-gray-800 text-gray-300 px-2 py-1 rounded">AI Analytics</span>
+                  </div>
                 </div>
               </CardContent>
             </Card>
