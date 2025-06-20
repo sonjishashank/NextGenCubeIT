@@ -1,4 +1,4 @@
-# Tcs website clone
+# NextGENCubeIT Website
 
 *Automatically synced with your [v0.dev](https://v0.dev) deployments*
 
@@ -14,7 +14,7 @@ Any changes you make to your deployed app will be automatically pushed to this r
 
 Your project is live at:
 
-**[https://vercel.com/sonjishashanks-projects/v0-tcs-website-clone](https://vercel.com/sonjishashanks-projects/v0-tcs-website-clone)**
+**[https://www.nextgencubeit.com/](https://www.nextgencubeit.com/)**
 
 ## Build your app
 
