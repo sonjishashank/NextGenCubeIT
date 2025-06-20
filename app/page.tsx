@@ -89,7 +89,7 @@ export default function HomePage() {
             <Card className="bg-gray-800 border-gray-700 hover:bg-gray-700 transition-colors">
               <CardContent className="p-4 sm:p-6">
                 <Image
-                  src="/placeholder.svg?height=200&width=300"
+                  src="/images/digital-transformation.jpg"
                   alt="Digital transformation"
                   width={300}
                   height={200}
@@ -103,7 +103,7 @@ export default function HomePage() {
             <Card className="bg-gray-800 border-gray-700 hover:bg-gray-700 transition-colors">
               <CardContent className="p-4 sm:p-6">
                 <Image
-                  src="/placeholder.svg?height=200&width=300"
+                  src="/images/cloud-services.jpg"
                   alt="Cloud services"
                   width={300}
                   height={200}
@@ -117,7 +117,7 @@ export default function HomePage() {
             <Card className="bg-gray-800 border-gray-700 hover:bg-gray-700 transition-colors">
               <CardContent className="p-4 sm:p-6">
                 <Image
-                  src="/placeholder.svg?height=200&width=300"
+                  src="/images/ai-analytics.jpg"
                   alt="AI & Analytics"
                   width={300}
                   height={200}
@@ -131,7 +131,7 @@ export default function HomePage() {
             <Card className="bg-gray-800 border-gray-700 hover:bg-gray-700 transition-colors">
               <CardContent className="p-4 sm:p-6">
                 <Image
-                  src="/placeholder.svg?height=200&width=300"
+                  src="/images/cybersecurity.jpg"
                   alt="Cybersecurity"
                   width={300}
                   height={200}
@@ -145,7 +145,7 @@ export default function HomePage() {
             <Card className="bg-gray-800 border-gray-700 hover:bg-gray-700 transition-colors sm:col-span-2 lg:col-span-1">
               <CardContent className="p-4 sm:p-6">
                 <Image
-                  src="/placeholder.svg?height=200&width=300"
+                  src="/images/consulting.jpg"
                   alt="Consulting"
                   width={300}
                   height={200}
@@ -173,7 +173,7 @@ export default function HomePage() {
             <Card className="bg-gray-900 border-gray-800">
               <CardContent className="p-0">
                 <Image
-                  src="/placeholder.svg?height=200&width=400"
+                  src="/images/manufacturing.jpg"
                   alt="Manufacturing"
                   width={400}
                   height={200}
@@ -189,7 +189,7 @@ export default function HomePage() {
             <Card className="bg-gray-900 border-gray-800">
               <CardContent className="p-0">
                 <Image
-                  src="/placeholder.svg?height=200&width=400"
+                  src="/images/healthcare.jpg"
                   alt="Healthcare"
                   width={400}
                   height={200}
@@ -205,7 +205,7 @@ export default function HomePage() {
             <Card className="bg-gray-900 border-gray-800 md:col-span-2 lg:col-span-1">
               <CardContent className="p-0">
                 <Image
-                  src="/placeholder.svg?height=200&width=400"
+                  src="/images/financial-services.jpg"
                   alt="Financial Services"
                   width={400}
                   height={200}
@@ -593,8 +593,8 @@ export default function HomePage() {
               <CardContent className="p-0">
                 <div className="relative">
                   <Image
-                    src="/placeholder.svg?height=200&width=400"
-                    alt="NextGen Video 1"
+                    src="/images/innovation-video.jpg"
+                    alt="NextGen Innovation Video"
                     width={400}
                     height={200}
                     className="w-full h-40 sm:h-48 object-cover"
@@ -618,8 +618,8 @@ export default function HomePage() {
               <CardContent className="p-0">
                 <div className="relative">
                   <Image
-                    src="/placeholder.svg?height=200&width=400"
-                    alt="NextGen Video 2"
+                    src="/images/digital-transformation-video.jpg"
+                    alt="Digital Transformation Video"
                     width={400}
                     height={200}
                     className="w-full h-40 sm:h-48 object-cover"
@@ -643,8 +643,8 @@ export default function HomePage() {
               <CardContent className="p-0">
                 <div className="relative">
                   <Image
-                    src="/placeholder.svg?height=200&width=400"
-                    alt="NextGen Video 3"
+                    src="/images/future-work-video.jpg"
+                    alt="Future of Work Video"
                     width={400}
                     height={200}
                     className="w-full h-40 sm:h-48 object-cover"
