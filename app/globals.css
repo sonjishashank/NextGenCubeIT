@@ -68,41 +68,54 @@
   }
 }
 
-/* Custom styles for mobile navigation */
-@layer utilities {
-  .mobile-nav-open {
-    overflow: hidden !important;
-    position: fixed !important;
-    width: 100% !important;
-    height: 100% !important;
-  }
+/* Mobile viewport fixes */
+html {
+  height: 100%;
+  height: 100dvh;
 }
 
-/* Ensure full height on mobile devices */
-html,
 body {
-  height: 100%;
+  min-height: 100%;
+  min-height: 100dvh;
   overflow-x: hidden;
 }
 
-/* Fix for mobile viewport height issues */
+/* Fix for iOS Safari and other mobile browsers */
 @supports (-webkit-touch-callout: none) {
-  .mobile-menu-container {
+  html {
     height: -webkit-fill-available;
+  }
+
+  body {
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Prevent zoom on input focus for iOS */
+@media screen and (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="password"],
+  textarea,
+  select {
+    font-size: 16px !important;
   }
 }
 
 /* Smooth animations */
 .slide-in-left {
-  animation: slideInLeft 0.3s ease-out;
+  animation: slideInLeft 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 @keyframes slideInLeft {
   from {
     transform: translateX(-100%);
+    opacity: 0;
   }
   to {
     transform: translateX(0);
+    opacity: 1;
   }
 }
 
@@ -117,4 +130,31 @@ body {
   to {
     opacity: 1;
   }
+}
+
+/* Ensure mobile menu takes full height */
+.mobile-menu-container {
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-height: 100vh !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
+}
+
+/* Custom scrollbar for mobile menu */
+.mobile-nav-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.mobile-nav-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.mobile-nav-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+.mobile-nav-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }

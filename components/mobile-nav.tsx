@@ -15,11 +15,23 @@ export default function MobileNav() {
     // Prevent body scroll when menu is open
     if (!isOpen) {
       document.body.style.overflow = "hidden"
-      document.documentElement.style.overflow = "hidden"
+      document.body.style.position = "fixed"
+      document.body.style.width = "100%"
+      document.body.style.height = "100%"
     } else {
-      document.body.style.overflow = "unset"
-      document.documentElement.style.overflow = "unset"
+      document.body.style.overflow = ""
+      document.body.style.position = ""
+      document.body.style.width = ""
+      document.body.style.height = ""
     }
+  }
+
+  const closeMenu = () => {
+    setIsOpen(false)
+    document.body.style.overflow = ""
+    document.body.style.position = ""
+    document.body.style.width = ""
+    document.body.style.height = ""
   }
 
   const toggleExpanded = (item: string) => {
@@ -28,8 +40,10 @@ export default function MobileNav() {
 
   useEffect(() => {
     return () => {
-      document.body.style.overflow = "unset"
-      document.documentElement.style.overflow = "unset"
+      document.body.style.overflow = ""
+      document.body.style.position = ""
+      document.body.style.width = ""
+      document.body.style.height = ""
     }
   }, [])
 
@@ -93,15 +107,24 @@ export default function MobileNav() {
 
       {/* Mobile Menu Overlay */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
+        <div className="fixed inset-0 z-[9999] lg:hidden">
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={toggleMenu} />
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={closeMenu} />
 
-          {/* Menu Panel - Full screen */}
-          <div className="absolute inset-0 bg-gray-900 flex flex-col">
+          {/* Menu Panel - Full viewport height */}
+          <div
+            className="absolute inset-0 bg-gray-900"
+            style={{
+              height: "100vh",
+              height: "100dvh", // Dynamic viewport height for modern browsers
+              maxHeight: "100vh",
+              maxHeight: "100dvh",
+              overflow: "hidden",
+            }}
+          >
             {/* Header - Fixed height */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-700 flex-shrink-0">
-              <Link href="/" className="flex items-center space-x-3" onClick={toggleMenu}>
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-700 h-16 flex-shrink-0">
+              <Link href="/" className="flex items-center space-x-3" onClick={closeMenu}>
                 <Image
                   src="/images/nextgen-logo.png"
                   alt="NextGen Cube IT Solutions"
@@ -118,20 +141,29 @@ export default function MobileNav() {
                 variant="ghost"
                 size="icon"
                 className="text-white hover:text-red-400 hover:bg-red-400/10 p-2"
-                onClick={toggleMenu}
+                onClick={closeMenu}
                 aria-label="Close mobile menu"
               >
                 <X className="w-6 h-6" />
               </Button>
             </div>
 
-            {/* Navigation Items - Scrollable content */}
-            <div className="flex-1 flex flex-col min-h-0">
-              <nav className="flex-1 overflow-y-auto">
+            {/* Navigation Content - Calculated height */}
+            <div
+              className="flex flex-col"
+              style={{
+                height: "calc(100vh - 8rem)", // Total height minus header (4rem) and footer (4rem)
+                height: "calc(100dvh - 8rem)",
+                maxHeight: "calc(100vh - 8rem)",
+                maxHeight: "calc(100dvh - 8rem)",
+              }}
+            >
+              {/* Navigation Items - Scrollable if needed */}
+              <nav className="flex-1 overflow-y-auto px-6 py-2">
                 {navItems.map((item, index) => (
-                  <div key={item.label} className="border-b border-gray-700/50">
+                  <div key={item.label} className="border-b border-gray-700/30 last:border-b-0">
                     <button
-                      className="w-full flex items-center justify-between px-6 py-5 text-left text-white hover:bg-gray-800/50 transition-colors duration-200"
+                      className="w-full flex items-center justify-between py-4 text-left text-white hover:bg-gray-800/30 transition-colors duration-200 rounded-lg px-2"
                       onClick={() => item.hasSubmenu && toggleExpanded(item.label)}
                     >
                       <span className="text-lg font-light tracking-wide">{item.label}</span>
@@ -146,13 +178,13 @@ export default function MobileNav() {
 
                     {/* Submenu */}
                     {item.hasSubmenu && expandedItems.includes(item.label) && (
-                      <div className="bg-gray-800/30 border-t border-gray-700/30">
+                      <div className="bg-gray-800/20 rounded-lg mb-2 overflow-hidden">
                         {item.submenu?.map((subItem) => (
                           <Link
                             key={subItem}
                             href="#"
-                            className="block px-12 py-3 text-gray-300 hover:text-white hover:bg-gray-700/30 transition-colors duration-200"
-                            onClick={toggleMenu}
+                            className="block px-6 py-2 text-gray-300 hover:text-white hover:bg-gray-700/30 transition-colors duration-200"
+                            onClick={closeMenu}
                           >
                             {subItem}
                           </Link>
@@ -164,10 +196,10 @@ export default function MobileNav() {
               </nav>
 
               {/* Contact Button - Fixed at bottom */}
-              <div className="p-6 border-t border-gray-700 flex-shrink-0">
+              <div className="px-6 py-4 border-t border-gray-700 h-16 flex-shrink-0 flex items-center">
                 <Button
-                  className="w-full bg-transparent border border-gray-500 text-white hover:bg-white hover:text-black transition-all duration-300 py-4 text-base font-normal tracking-widest"
-                  onClick={toggleMenu}
+                  className="w-full bg-transparent border border-gray-500 text-white hover:bg-white hover:text-black transition-all duration-300 py-3 text-base font-normal tracking-widest"
+                  onClick={closeMenu}
                 >
                   CONTACT US
                 </Button>
