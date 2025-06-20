@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ChevronDown, Search } from "lucide-react"
+import { ChevronDown, Search, Youtube, Instagram, Facebook, Twitter } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import HeroSlider from "@/components/hero-slider"
@@ -686,10 +686,42 @@ export default function HomePage() {
           <div className="text-center mb-6 sm:mb-8">
             <h3 className="text-lg sm:text-xl font-light mb-4">Follow us for the latest updates</h3>
             <div className="flex justify-center space-x-4 sm:space-x-6">
-              <div className="w-8 h-8 bg-gray-700 rounded cursor-pointer hover:bg-red-600 transition-colors"></div>
-              <div className="w-8 h-8 bg-gray-700 rounded cursor-pointer hover:bg-red-600 transition-colors"></div>
-              <div className="w-8 h-8 bg-gray-700 rounded cursor-pointer hover:bg-red-600 transition-colors"></div>
-              <div className="w-8 h-8 bg-gray-700 rounded cursor-pointer hover:bg-red-600 transition-colors"></div>
+              <a
+                href="https://youtube.com/@nextgencubeit"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center cursor-pointer hover:bg-red-600 transition-colors duration-300 group"
+                aria-label="Follow us on YouTube"
+              >
+                <Youtube className="w-5 h-5 text-white group-hover:text-white" />
+              </a>
+              <a
+                href="https://instagram.com/nextgencubeit"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center cursor-pointer hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 transition-all duration-300 group"
+                aria-label="Follow us on Instagram"
+              >
+                <Instagram className="w-5 h-5 text-white group-hover:text-white" />
+              </a>
+              <a
+                href="https://facebook.com/nextgencubeit"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-600 transition-colors duration-300 group"
+                aria-label="Follow us on Facebook"
+              >
+                <Facebook className="w-5 h-5 text-white group-hover:text-white" />
+              </a>
+              <a
+                href="https://x.com/nextgencubeit"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center cursor-pointer hover:bg-black transition-colors duration-300 group"
+                aria-label="Follow us on X"
+              >
+                <Twitter className="w-5 h-5 text-white group-hover:text-white" />
+              </a>
             </div>
           </div>
 

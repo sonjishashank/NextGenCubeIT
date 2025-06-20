@@ -167,7 +167,8 @@ export default function TransformSection() {
     return () => observer.disconnect()
   }, [])
 
-  const displayedServices = showAll ? services : services.slice(0, 8)
+  // Show only first 3 services initially, then all when expanded
+  const displayedServices = showAll ? services : services.slice(0, 3)
 
   return (
     <section ref={sectionRef} className="relative py-20 bg-gray-900 overflow-hidden">
@@ -217,7 +218,7 @@ export default function TransformSection() {
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {displayedServices.map((service, index) => {
             const Icon = service.icon
             return (
@@ -229,7 +230,7 @@ export default function TransformSection() {
                   isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
                 }`}
                 style={{
-                  transitionDelay: `${index * 100}ms`,
+                  transitionDelay: `${index * 150}ms`,
                 }}
                 onMouseEnter={() => setHoveredCard(service.id)}
                 onMouseLeave={() => setHoveredCard(null)}
@@ -295,50 +296,27 @@ export default function TransformSection() {
           })}
         </div>
 
-        {/* Show More/Less Button */}
-        <div className="text-center mb-8">
+        {/* View All Services Button */}
+        <div className="text-center">
           <Button
             variant="outline"
             size="lg"
             className={`group relative overflow-hidden bg-transparent border-2 border-red-500/50 text-white hover:text-black px-8 py-4 rounded-full transition-all duration-500 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
-            style={{ transitionDelay: "800ms" }}
+            style={{ transitionDelay: "600ms" }}
             onClick={() => setShowAll(!showAll)}
           >
             {/* Button background animation */}
             <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-orange-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
 
             <span className="relative z-10 flex items-center space-x-2">
-              <span>{showAll ? "Show Less" : "View All Services"}</span>
+              <span>{showAll ? "Show Less Services" : "View All Services"}</span>
               <ChevronDown
                 className={`w-4 h-4 transition-transform duration-300 ${
                   showAll ? "rotate-180" : "group-hover:translate-y-1"
                 }`}
               />
-            </span>
-
-            {/* Ripple effect */}
-            <div className="absolute inset-0 rounded-full bg-white/20 scale-0 group-hover:scale-100 transition-transform duration-700 opacity-0 group-hover:opacity-100" />
-          </Button>
-        </div>
-
-        {/* View All Topics Button */}
-        <div className="text-center">
-          <Button
-            variant="outline"
-            size="lg"
-            className={`group relative overflow-hidden bg-transparent border-2 border-gray-500/50 text-white hover:text-black px-8 py-4 rounded-full transition-all duration-500 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-            }`}
-            style={{ transitionDelay: "1000ms" }}
-          >
-            {/* Button background animation */}
-            <div className="absolute inset-0 bg-gradient-to-r from-gray-600 to-gray-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-
-            <span className="relative z-10 flex items-center space-x-2">
-              <span>Explore All Solutions</span>
-              <ChevronDown className="w-4 h-4 group-hover:translate-y-1 transition-transform duration-300" />
             </span>
 
             {/* Ripple effect */}
